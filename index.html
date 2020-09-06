@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./dist/guylianize.min.css" type="text/css">
+    <style>
+        #hero-home{
+            height: 100vh;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #hero-home > h1{
+            font-size: 4rem;
+        }
+
+        #hero-home > p{
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        #section-documentation{
+            height: 100vh;
+        }
+
+        #section-documentation .switchable-tabs{
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 5fr;
+            grid-template-rows: 1fr;
+        }
+
+        #section-documentation .switchable-tabs .links{
+            height: 100%;
+        }
+
+        #section-documentation .switchable-tabs .links ul{
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            background-color: #333;
+        }
+
+        #section-documentation .switchable-tabs .links ul li{
+            transition: all 0.3s ease;
+        }
+
+        #section-documentation .switchable-tabs .links ul li a{
+            padding: 1rem 1.5rem;
+            display: block;
+            color: #fff;
+            pointer-events: none;
+        }
+
+        #section-documentation .switchable-tabs .links ul li.active,
+        #section-documentation .switchable-tabs .links ul li:hover{
+            cursor: pointer;
+            background-color: #3f3f3f;
+        }
+
+        #section-documentation .switchable-tabs .tabs .tab{
+            max-height: 100vh;
+            padding: 1rem;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
+        #section-documentation .switchable-tabs .tabs .tab:not(.active){
+            display: none;
+        }
+
+        .code-snippet{
+            margin: 1rem 0px;
+            padding: 1rem;
+            color: #fff;
+            background-color: #333;
+        }
+
+        .colorbox{
+            margin-top: 0.2rem;
+            padding: 1rem;
+        }
+
+        .colorbox div{
+            height: 60px;
+        }
+
+        .colorbox p{
+            margin: 0.5rem 0px;
+        }
+
+        @media only screen and (max-width: 960px){
+            #section-documentation .switchable-tabs{
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 5fr;
+            }
+
+            #section-documentation .switchable-tabs .tabs .tab{
+                max-height: 100%;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            InitSwitchableTabs();
+        });
+
+        function InitSwitchableTabs()
+        {
+            let tabs = document.querySelectorAll(`.switchable-tabs`);
+            if(tabs.length > 0)
+            {
+                for(let tab of tabs)
+                {
+                    let links = tab.querySelectorAll(`.links li.tab-activator`);
+                    let tabs = tab.querySelectorAll(`.tabs .tab`);
+
+                    // Init links
+                    if(links.length > 0)
+                    {
+                        for(let link of links)
+                        {
+                            link.addEventListener('click', (e) => {
+                                e.preventDefault();
+
+                                if(!e.target.hasAttribute('data-tab'))
+                                    return;
+
+                                let linkedTabId = e.target.getAttribute('data-tab');
+                                let tab = document.querySelector(`.tab[data-tab="${linkedTabId}"]`);
+                                
+                                if(!tab instanceof Object)
+                                    return;
+
+                                ClearActiveTabs();
+                                ClearActiveTabActivators();
+                                e.target.classList.add('active');
+                                tab.classList.add('active');
+                            })
+                        }
+                    }
+                    console.log(links);
+                }
+            }
+        }
+
+        function ClearActiveTabs()
+        {
+            let tabs = document.querySelectorAll(`.switchable-tabs .tabs .tab.active`);
+            if(tabs.length > 0)
+                for(let tab of tabs)
+                    tab.classList.remove('active');
+        }
+
+        function ClearActiveTabActivators()
+        {
+            let activators = document.querySelectorAll(`.switchable-tabs .links .tab-activator.active`);
+            if(activators.length > 0)
+                for(let activator of activators)
+                    activator.classList.remove('active');
+        }
+    </script>
+</head>
+<body>
+    <section id="hero-home" class="reset-padding bg-color-purple txt-color-white">
+        <h1 class="font-thin">Guylianize</h1>
+        <p>A simple CSS framework</p>
+    </section>
+    <section id="section-documentation" class="unpadded">
+        <div class="switchable-tabs">
+            <div class="links">
+                <ul>
+                    <li class="tab-activator active" data-tab="welcome">
+                        <a href="#!">Welcome</a>
+                    </li>
+                    <li class="tab-activator" data-tab="typography">
+                        <a href="#!">Typography</a>
+                    </li>
+                    <li class="tab-activator" data-tab="colors">
+                        <a href="#!">Colors</a>
+                    </li>
+                    <li class="tab-activator" data-tab="layouts">
+                        <a href="#!">Layouts</a>
+                    </li>
+                    <li class="tab-activator" data-tab="elements">
+                        <a href="#!">Elements</a>
+                    </li>
+                    <li class="tab-activator" data-tab="form-elements">
+                        <a href="#!">Form elements</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tabs">
+                <div class="tab active" data-tab="welcome">
+                    <div class="container">
+                        <div class="indent-small-top">
+                            <p class="h3">Welcome</p>
+                            <p>Thank you for visiting this website about this framework. Guylianize is a very small framework, a micro-framework if you will. The goal of the framework is to give developers some base styling and provide some basic layouts.</p>
+                        </div>
+                        <div class="indent-small-top">
+                            <p class="h3">Installing</p>
+                            <p>You have 2 options of including Guylianize inside your project. Option 1 would be to <a download href="https://cdn.guyliangilsing.me/frameworks/guylianize/v1.0/guylianize.min.css">download</a> Guylianize from the cdn. Option 2 would be to include the code below:</p>
+                            <div class="code-snippet">
+                                &lt;link rel="stylesheet" href="https://cdn.guyliangilsing.me/frameworks/guylianize/v1.0/guylianize.min.css" type="text/css"&gt;
+                            </div>
+                            <p>The code above will load the css file as an external stylesheet. It is highly recommended that you download Guylianize through the cdn. That way you will know for sure that the framework will work within your project.</p>
+                        </div>
+                        <div class="indent-small-vertical">
+                            <p class="h3">General information</p>
+                            <p>To be able to make full use of this framework, some general knowledge on CSS and responsive web design (RWD) is needed. Classes are being prefixed with a . (dot), DO NOT USE THIS DOT WHEN APPLYING A CLASS (It will not work)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab" data-tab="typography">
+                    <div class="container">
+                        <div class="indent-small-top">
+                            <p class="h3">Typography</p>
+                            <p>Guylianize will handle the font-family and font-size automatically for you. However, it does give you classes that you can apply to textual elements. The goal of these classes is to create an easy way of creating quick pieces of text that will fit your needs.</p>
+                        </div>
+                        <div class="indent-small-top">
+                            <p class="h4">Font size and weight</p>
+                            <p>You can use the following classes to alter the size and weight of a text element:</p>
+                            <ul>
+                                <li>.h1 (H1 styling)</li>
+                                <li>.h2 (H2 styling)</li>
+                                <li>.h3 (H3 styling)</li>
+                                <li>.h4 (H4 styling)</li>
+                                <li>.h5 (H5 styling)</li>
+                                <li>.h6 (H6 styling)</li>
+                                <li>.font-thin (font-weight 100)</li>
+                                <li>.font-extralight (font-weight 200)</li>
+                                <li>.font-light (font-weight 300)</li>
+                                <li>.font-normal (font-weight 400)</li>
+                                <li>.font-medium (font-weight 500)</li>
+                                <li>.font-semibold (font-weight 600)</li>
+                                <li>.font-bold (font-weight 700)</li>
+                                <li>.font-extrabold (font-weight 800)</li>
+                                <li>.font-black (font-weight 900)</li>
+                            </ul>
+                        </div>
+                        <div class="indent-small-vertical">
+                            <p class="h4">Color</p>
+                            <p>Changing the text color is quite simple. All you need to do is add the .txt-color-YOURCOLORNAME class to the specific text element. By using the .txt-color-light and .txt-color-dark you can make the shade lighter or darker. You can find the names of the color classes and their shades in the Colors section.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab" data-tab="colors">
+                    <div class="container">
+                        <div class="indent-small-top">
+                            <p class="h3">Color summary</p>
+                            <div class="procentual-layout">
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-white"></div>
+                                    <p class="name text-center">White</p>
+                                    <p class="hex text-center">.PREFIX-color-white</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-black"></div>
+                                    <p class="name text-center">Black</p>
+                                    <p class="hex text-center">.PREFIX-color-black</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-red"></div>
+                                    <p class="name text-center">Red</p>
+                                    <p class="hex text-center">.PREFIX-color-red</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-pink"></div>
+                                    <p class="name text-center">Pink</p>
+                                    <p class="hex text-center">.PREFIX-color-pink</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-orange"></div>
+                                    <p class="name text-center">Orange</p>
+                                    <p class="hex text-center">.PREFIX-color-orange</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-yellow"></div>
+                                    <p class="name text-center">Yellow</p>
+                                    <p class="hex text-center">.PREFIX-color-yellow</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-green"></div>
+                                    <p class="name text-center">Green</p>
+                                    <p class="hex text-center">.PREFIX-color-green</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-turquoise"></div>
+                                    <p class="name text-center">Turquoise</p>
+                                    <p class="hex text-center">.PREFIX-color-turquoise</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-cyan"></div>
+                                    <p class="name text-center">Cyan</p>
+                                    <p class="hex text-center">.PREFIX-color-cyan</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-blue"></div>
+                                    <p class="name text-center">Blue</p>
+                                    <p class="hex text-center">.PREFIX-color-blue</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-purple"></div>
+                                    <p class="name text-center">Purple</p>
+                                    <p class="hex text-center">.PREFIX-color-purple</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-silver"></div>
+                                    <p class="name text-center">Silver</p>
+                                    <p class="hex text-center">.PREFIX-color-silver</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-lightgray"></div>
+                                    <p class="name text-center">Light gray</p>
+                                    <p class="hex text-center">.PREFIX-color-lightgray</p>
+                                </div>
+                                <div class="colorbox col-xl-25 col-1-3 col-s-100 col-xs-100">
+                                    <div class="color bg-color-gray"></div>
+                                    <p class="name text-center">Gray</p>
+                                    <p class="hex text-center">.PREFIX-color-gray</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="indent-small-vertical">
+                            <p class="h3">Working with colors</p>
+                            <p>Working with colors is quite simple. If you look at the color summary, you can see that there is a line that states "PREFIX-color-red". The prefix part of this text will tell Guylianize which styling to apply.</p>
+                            <p>The following prefixes are available:</p>
+                            <ul>
+                                <li>.bg (Background color)</li>
+                                <li>.txt (Text color)</li>
+                                <li>.btn (Button color)</li>
+                            </ul>
+                            <p>You are not bound by these specific shades. In order to make the shade darker or lighter you can use the following classes:</p>
+                            <ul>
+                                <li>.PREFIX-color-light</li>
+                                <li>.PREFIX-color-dark</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab" data-tab="layouts">
+                    <div class="container">
+                        <div class="indent-small-top">
+                            <p class="h3">Layouts</p>
+                            <p>It is very imporant that developers can easily create layouts. Guylianize comes with a few classes and systems to make the creation of layouts a bit faster and easier.</p>
+                        </div>
+                        <div class="indent-small-top">
+                            <p class="h4">Procentual</p>
+                            <p>Guylianize uses a procentual column layout for horizontal layouts. Instead of the commonly used 12 column layout, Guylianize will allow you to specify the width of the columns in percentages for a more design oriented control.</p>
+                            <p>To start using a procentual layout, you need to have an element with the .procentual-layout class</p>
+                            <div class="code-snippet">
+                                &lt;div class="procentual-layout"&gt;<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="col-1-3 col-m-50 col-s-100 col-xs-100"&gt;&lt;/div&gt;<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="col-1-3 col-m-50 col-s-100 col-xs-100"&gt;&lt;/div&gt;<br/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="col-1-3 col-m-50 col-s-100 col-xs-100"&gt;&lt;/div&gt;<br/>
+                                &lt;/div&gt;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab" data-tab="elements">
+                    <h1>Elements</h1>
+                </div>
+                <div class="tab" data-tab="form-elements">
+                    <h1>Form elements</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
